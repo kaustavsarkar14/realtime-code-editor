@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 
 const EditorPage = () => {
   const socket = useMemo(() => io("http://localhost:8000"), []);
-  const { username, setUsername } = useContext(appContext);
+  const { username } = useContext(appContext);
   const [clients, setClients] = useState([]);
   const { roomId } = useParams();
   const codeRef = useRef(null);
@@ -20,7 +20,8 @@ const EditorPage = () => {
       setClients(clients);
       if (socketId === socket.id) return;
       toast.success(`${username} joined the room.`);
-      socket.emit("code-sync", { code: codeRef.current, socketId });
+      if (codeRef.current && codeRef.current !== "")
+        socket.emit("code-sync", { code: codeRef.current, socketId });
     });
 
     socket.on("user-left", ({ socketId, username }) => {
@@ -37,10 +38,10 @@ const EditorPage = () => {
     };
   }, []);
 
-  // if (!username) return <Navigate to="/" />;
+  if (!username) return <Navigate to="/" />;
   return (
     <div className="w-full h-screen flex md:flex-row flex-col ">
-      <RoomControls clients={clients} roomId={roomId} />
+      <RoomControls clients={clients} roomId={roomId} socket={socket} />
       <CodeEditor
         roomId={roomId}
         socket={socket}

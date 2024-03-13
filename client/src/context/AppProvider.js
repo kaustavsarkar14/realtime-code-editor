@@ -1,5 +1,4 @@
 import { createContext, useMemo, useState } from "react";
-import { io } from "socket.io-client";
 
 export const appContext = createContext();
 
