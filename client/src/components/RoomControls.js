@@ -1,11 +1,10 @@
 import { Avatar, Button, Separator } from "@radix-ui/themes";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { appContext } from "../context/AppProvider";
 
-const RoomControls = () => {
-  const [clients, setClients] = useState([
-    { socketId: "123", name: "kaustav" },
-    { socketId: "123w", name: "Test User" },
-  ]);
+const RoomControls = ({ clients }) => {
+  const { username } = useContext(appContext);
+
   return (
     <div className="md:w-[15%] p-2 py-3 flex flex-col gap-2 ">
       <h1 className="text-xl font-bold">Co-code</h1>
@@ -14,8 +13,11 @@ const RoomControls = () => {
       <div className="flex flex-col gap-2">
         {clients.map((client) => (
           <div key={client.socketId} className="flex gap-2 items-center">
-            <Avatar size={"1"} fallback={client.name[0]} />
-            <p>{client.name}</p>
+            <Avatar size={"1"} fallback={client.username[0]} />
+            <p>
+              {client.username}
+              {client.username === username ? " (you)" : ""}
+            </p>
           </div>
         ))}
       </div>

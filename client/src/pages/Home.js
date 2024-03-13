@@ -1,12 +1,13 @@
 import { Button, Flex, Separator, TextField } from "@radix-ui/themes";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { appContext } from "../context/AppProvider";
 
 const Home = () => {
   const [roomId, setRoomId] = useState("");
-  const [username, setUsername] = useState("");
+  const { username, setUsername } = useContext(appContext);
   const navigate = useNavigate();
   const handleCreateRoom = () => {
     const id = uuidv4();

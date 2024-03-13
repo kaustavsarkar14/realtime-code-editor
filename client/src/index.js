@@ -6,21 +6,17 @@ import { BrowserRouter } from "react-router-dom";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import { Toaster } from "react-hot-toast";
+import AppProvider from "./context/AppProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <React.StrictMode>
-      <Theme
-        accentColor="grass"
-        grayColor="grass"
-        radius="large"
-        scaling="95%"
-      >
-        <Toaster/>
+    <Theme accentColor="grass" grayColor="grass" radius="large" scaling="95%">
+      <Toaster />
+      <AppProvider>
         <App />
-      </Theme>
-    </React.StrictMode>
+      </AppProvider>
+    </Theme>
   </BrowserRouter>
 );
 
