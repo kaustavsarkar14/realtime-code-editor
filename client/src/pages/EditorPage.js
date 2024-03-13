@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import RoomControls from "../components/RoomControls";
 import CodeEditor from "../components/CodeEditor";
 import { appContext } from "../context/AppProvider";
@@ -11,14 +11,16 @@ const EditorPage = () => {
   const { username, setUsername } = useContext(appContext);
   const [clients, setClients] = useState([]);
   const { roomId } = useParams();
+  const codeRef = useRef(null);
 
   useEffect(() => {
     socket.emit("join", { roomId, username });
+
     socket.on("joined", ({ clients, username, socketId }) => {
-      console.log(clients);
       setClients(clients);
       if (socketId === socket.id) return;
       toast.success(`${username} joined the room.`);
+      socket.emit("code-sync", { code: codeRef.current, socketId });
     });
 
     socket.on("user-left", ({ socketId, username }) => {
@@ -39,7 +41,11 @@ const EditorPage = () => {
   return (
     <div className="w-full h-screen flex md:flex-row flex-col ">
       <RoomControls clients={clients} roomId={roomId} />
-      <CodeEditor roomId={roomId} socket={socket} />
+      <CodeEditor
+        roomId={roomId}
+        socket={socket}
+        onCodeChange={(code) => (codeRef.current = code)}
+      />
     </div>
   );
 };
