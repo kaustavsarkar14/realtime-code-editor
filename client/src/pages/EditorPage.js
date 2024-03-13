@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
 const EditorPage = () => {
-  const socket = useMemo(() => io("http://localhost:8000"), []);
+  const socket = useMemo(() => io("https://realtime-code-editor-backend-sigma.vercel.app/"), []);
   const { username } = useContext(appContext);
   const [clients, setClients] = useState([]);
   const { roomId } = useParams();
