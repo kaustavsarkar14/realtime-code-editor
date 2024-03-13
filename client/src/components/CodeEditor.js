@@ -36,6 +36,9 @@ const CodeEditor = ({ roomId, socket }) => {
       });
     }
     init();
+    return () => {
+      socket.off("code-change");
+    };
   }, []);
 
   return (

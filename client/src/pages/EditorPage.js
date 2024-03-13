@@ -38,7 +38,7 @@ const EditorPage = () => {
   // if (!username) return <Navigate to="/" />;
   return (
     <div className="w-full h-screen flex md:flex-row flex-col ">
-      <RoomControls clients={clients} />
+      <RoomControls clients={clients} roomId={roomId} />
       <CodeEditor roomId={roomId} socket={socket} />
     </div>
   );

@@ -1,10 +1,15 @@
 import { Avatar, Button, Separator } from "@radix-ui/themes";
 import React, { useContext, useState } from "react";
 import { appContext } from "../context/AppProvider";
+import toast from "react-hot-toast";
 
-const RoomControls = ({ clients }) => {
+const RoomControls = ({ clients, roomId }) => {
   const { username } = useContext(appContext);
-
+  const handleRoomIdCopy = () => {
+    navigator.clipboard.writeText(roomId);
+    toast.success("Room id copied");
+  }
+  
   return (
     <div className="md:w-[15%] p-2 py-3 flex flex-col gap-2 ">
       <h1 className="text-xl font-bold">Co-code</h1>
@@ -23,7 +28,7 @@ const RoomControls = ({ clients }) => {
       </div>
       <div className="flex flex-col gap-2 mt-auto">
         <Separator orientation="horizontal" size="4" />
-        <Button radius="large" variant="soft">
+        <Button radius="large" variant="soft" onClick={handleRoomIdCopy}>
           Copy room id
         </Button>
         <Button radius="large" color="crimson" variant="soft">
