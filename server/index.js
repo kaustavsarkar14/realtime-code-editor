@@ -46,18 +46,20 @@ io.on("connection", (socket) => {
       });
     });
   });
+
+  socket.on("code-change", ({ roomId, code }) => {
+    socket.in(roomId).emit("code-change", { code });
+  });
   socket.on("disconnecting", () => {
     const rooms = [...socket.rooms];
     rooms.forEach((roomId) => {
-      socket
-        .in(roomId)
-        .emit("user-left", {
-          socketId: socket.id,
-          username: userSocketMap[socket.id],
-        });
+      socket.in(roomId).emit("user-left", {
+        socketId: socket.id,
+        username: userSocketMap[socket.id],
+      });
     });
-    delete userSocketMap[socket.id]
-    socket.leave()
+    delete userSocketMap[socket.id];
+    socket.leave();
   });
 });
 

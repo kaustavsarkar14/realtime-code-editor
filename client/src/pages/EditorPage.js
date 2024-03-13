@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import RoomControls from "../components/RoomControls";
 import CodeEditor from "../components/CodeEditor";
-import { io } from "socket.io-client";
 import { appContext } from "../context/AppProvider";
 import { Navigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { io } from "socket.io-client";
 
 const EditorPage = () => {
   const socket = useMemo(() => io("http://localhost:8000"), []);
@@ -35,11 +35,11 @@ const EditorPage = () => {
     };
   }, []);
 
-  if (!username) return <Navigate to="/" />;
+  // if (!username) return <Navigate to="/" />;
   return (
     <div className="w-full h-screen flex md:flex-row flex-col ">
       <RoomControls clients={clients} />
-      <CodeEditor />
+      <CodeEditor roomId={roomId} socket={socket} />
     </div>
   );
 };
